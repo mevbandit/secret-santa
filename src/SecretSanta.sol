@@ -127,13 +127,13 @@ contract secretSanta is VRFConsumerBase, ERC20, ERC721 {
     function transferLink(address to, uint256 value) onlySteward() public {
         LINK.transfer(to, value);
     }
-}
-    
   }
+    
+}
 
  
-}
+
 
 
     
-  }
+  

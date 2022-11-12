@@ -16,19 +16,18 @@ contract SecretSanta is ERC721 {
     mapping(address => bool) public userEntered;
     mapping(address => bool) public hasClaimed;
 
-    constructor()
-        ERC721 ("WrappedGift", "SecretSanta")
-    {}
-
+    constructor() ERC721("WrappedGift", "SecretSanta") {}
 
     function random() public view returns (uint256) {
-            uint256 seed = uint256(keccak256(abi.encodePacked(
-            block.timestamp + block.difficulty +
-            ((uint256(keccak256(abi.encodePacked(block.coinbase)))) / (block.timestamp)) +
-            block.gaslimit + 
-            ((uint256(keccak256(abi.encodePacked(msg.sender)))) / (block.timestamp)) +
-            block.number
-        )));
+        uint256 seed = uint256(
+            keccak256(
+                abi.encodePacked(
+                    block.timestamp + block.difficulty
+                        + ((uint256(keccak256(abi.encodePacked(block.coinbase)))) / (block.timestamp)) + block.gaslimit
+                        + ((uint256(keccak256(abi.encodePacked(msg.sender)))) / (block.timestamp)) + block.number
+                )
+            )
+        );
 
         return (seed - ((seed / 1000) * 1000));
     }
@@ -36,11 +35,7 @@ contract SecretSanta is ERC721 {
     function enter(address _tokenAddress, uint256 _tokenId) public {
         require(userEntered[msg.sender] == false, "User already participated");
         userEntered[msg.sender] = true;
-        giftList[nextGiftNum] = nft(
-            _tokenAddress,
-            msg.sender,
-            _tokenId
-        );
+        giftList[nextGiftNum] = nft(_tokenAddress, msg.sender, _tokenId);
         nextGiftNum++;
     }
 
@@ -60,5 +55,4 @@ contract SecretSanta is ERC721 {
     function donate(address _contract, uint256 _tokenId) public {
         IERC721(_contract).safeTransferFrom(msg.sender, address(this), _tokenId);
     }
-
 }
