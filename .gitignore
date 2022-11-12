@@ -1,0 +1,9 @@
+venv
+node_modules
+.env
+build
+*.lock
+*.log
+data/*.json
+
+
